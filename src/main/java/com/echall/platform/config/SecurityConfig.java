@@ -1,6 +1,7 @@
 package com.echall.platform.config;
 
 import java.util.Collections;
+import java.util.List;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -128,8 +129,10 @@ public class SecurityConfig {
 	public CorsConfigurationSource corsConfigurationSource() {
 		return request -> {
 			CorsConfiguration corsConfiguration = new CorsConfiguration();
+			corsConfiguration.setAllowedOrigins(List.of("http://localhost:3000"));
 			corsConfiguration.setAllowedHeaders(Collections.singletonList("*"));
-			corsConfiguration.setAllowedMethods(Collections.singletonList("*"));
+			corsConfiguration.setExposedHeaders(Collections.singletonList("*"));
+			corsConfiguration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
 			corsConfiguration.setAllowedOriginPatterns(Collections.singletonList("http://localhost:3000"));
 			corsConfiguration.setAllowCredentials(true);
 			return corsConfiguration;
