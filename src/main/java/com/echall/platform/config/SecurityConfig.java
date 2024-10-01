@@ -126,17 +126,23 @@ public class SecurityConfig {
 
 	@Bean
 	public CorsConfigurationSource corsConfigurationSource() {
+		return request -> {
+			CorsConfiguration corsConfiguration = new CorsConfiguration();
+			corsConfiguration.setAllowedHeaders(Collections.singletonList("*"));
+			corsConfiguration.setAllowedMethods(Collections.singletonList("*"));
+			corsConfiguration.setAllowedOriginPatterns(Collections.singletonList("http://localhost:3000"));
+			corsConfiguration.setAllowCredentials(true);
+			return corsConfiguration;
+		};
 
-		CorsConfiguration corsConfiguration = new CorsConfiguration();
-		corsConfiguration.setAllowedHeaders(Collections.singletonList("*"));
-		corsConfiguration.setAllowedMethods(Collections.singletonList("*"));
-		corsConfiguration.setAllowedOriginPatterns(Collections.singletonList("http://localhost:3000"));
-		corsConfiguration.setAllowedOriginPatterns(Collections.singletonList("http://http://13.238.253.88:8080"));
-		corsConfiguration.setAllowCredentials(true);
-
-		UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-		source.registerCorsConfiguration("/**", corsConfiguration);
-		return source;
-
+		// corsConfiguration.addAllowedOrigin(System.getenv("WEBSITE_DOMAIN"));
+		// corsConfiguration.addAllowedOrigin(System.getenv("API_DOMAIN"));
+		// corsConfiguration.addAllowedOrigin("http://localhost:8080"); // JUST FOR LOCAL DEV
+		// corsConfiguration.addAllowedOrigin("http://localhost:3000"); // JUST FOR LOCAL DEV
+		// corsConfiguration.addAllowedHeader("http://13.238.253.88:8080"); // JUST FOR PROD
+		//
+		// UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+		// source.registerCorsConfiguration("/**", corsConfiguration);
+		// return source;
 	}
 }
